@@ -5,33 +5,36 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { useState } from 'react';
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+  Button,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <AppContent />
-    </SafeAreaProvider>
+    </>
   );
 }
 
 function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
+  const [isValid, setIsValid] = useState(true);
 
   return (
     <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+      <View style={isValid ? styles.valid : styles.invalid}>
+        <Text>Hello</Text>
+      </View>
+      <Button title="Change validity" onPress={() => setIsValid(!isValid)} />
     </View>
   );
 }
@@ -39,6 +42,18 @@ function AppContent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    gap: 12,
+    padding: 16,
+  },
+  valid: {
+    borderRadius: 1,
+    overflow: 'hidden',
+  },
+  invalid: {
+    borderRadius: 1,
+    overflow: 'hidden',
+    borderWidth: 1,
   },
 });
 
